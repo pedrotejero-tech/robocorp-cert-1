@@ -5,10 +5,11 @@ from robocorp import browser
 def robot_spare_bin_python():
     """Insert the sales data for the week and export it as a PDF"""
     browser.configure(
-        slowmo=1000,
+        slowmo=500,
     )
     open_the_intranet_website()
     log_in()
+    fill_and_submit_sales_form()
 
 def open_the_intranet_website():
     """Navigates to the given URL"""
@@ -20,3 +21,13 @@ def log_in():
     page.fill("#username", "maria")
     page.fill("#password", "thoushallnotpass")
     page.click("button:text('Log in')")
+
+def fill_and_submit_sales_form():
+    """Fills in the sales data and click the 'Submit' button"""
+    page = browser.page()
+
+    page.fill("#firstname", "John")
+    page.fill("#lastname", "Smith")
+    page.fill("#salesresult", "123")
+    page.select_option("#salestarget", "10000")
+    page.click("text=Submit")
