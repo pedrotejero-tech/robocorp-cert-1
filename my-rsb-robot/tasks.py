@@ -14,6 +14,7 @@ def robot_spare_bin_python():
     log_in()
     download_excel_file()
     fill_form_with_excel_data()
+    collect_results()
 
 def open_the_intranet_website():
     """Navigates to the given URL"""
@@ -26,6 +27,11 @@ def log_in():
     page.fill("#password", "thoushallnotpass")
     page.click("button:text('Log in')")
 
+def download_excel_file():
+    """Downloads excel file from the given URL"""
+    http = HTTP()
+    http.download(url="https://robotsparebinindustries.com/SalesData.xlsx", overwrite=True)
+
 def fill_and_submit_sales_form(sales_rep):
     """Fills in the sales data and click the 'Submit' button"""
     page = browser.page()
@@ -36,11 +42,6 @@ def fill_and_submit_sales_form(sales_rep):
     page.fill("#salesresult", str(sales_rep["Sales"]))
     page.click("text=Submit")
 
-def download_excel_file():
-    """Downloads excel file from the given URL"""
-    http = HTTP()
-    http.download(url="https://robotsparebinindustries.com/SalesData.xlsx", overwrite=True)
-
 def fill_form_with_excel_data():
     """Read data from excel and fill in the sales form"""
     excel = Files()
@@ -50,3 +51,8 @@ def fill_form_with_excel_data():
 
     for row in worksheet:
         fill_and_submit_sales_form(row)
+
+def collect_results():
+    """Take a screenshot of the page"""
+    page = browser.page()
+    page.screenshot(path="output/sales_summary.png")
